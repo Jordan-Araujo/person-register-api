@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.register.api.dtos.ContactDto;
 import com.register.api.dtos.PersonDto;
@@ -17,6 +18,7 @@ import com.register.api.repositories.ContactRepository;
 import com.register.api.repositories.PersonRepository;
 
 @Configuration
+@Profile("!test")
 public class InicialConfiguration implements CommandLineRunner{
 	
 	@Autowired
@@ -43,22 +45,8 @@ public class InicialConfiguration implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		personRepo.deleteAll();
 		contactRepo.deleteAll();
-		
-		PersonDto user01 = new PersonDto(null, "Joao Alves", "641.030.280-09", LocalDate.of(2005, 03, 20));
-		PersonDto user02 = new PersonDto(null, "Maria Silva", "425.950.800-83", LocalDate.of(2006, 06, 21));
-		PersonDto user03 = new PersonDto(null, "Pedro Araujo", "066.428.580-50", LocalDate.of(2007, 07, 22));
-		PersonDto user04 = new PersonDto(null, "Roberto Alves", "250.578.350-09", LocalDate.of(1995, 02, 20));
-		PersonDto user05 = new PersonDto(null, "Matheus Silva", "627.288.470-29", LocalDate.of(1992, 11, 21));
-		PersonDto user06 = new PersonDto(null, "Gustavo Araujo", "019.037.970-71", LocalDate.of(1990, 05, 22));
-		
-		PersonModel personModel01 = PersonDtoToModel(user01);
-		PersonModel personModel02 = PersonDtoToModel(user02);
-		PersonModel personModel03 = PersonDtoToModel(user03);
-		PersonModel personModel04 = PersonDtoToModel(user04);
-		PersonModel personModel05 = PersonDtoToModel(user05);
-		PersonModel personModel06 = PersonDtoToModel(user06);		
+		personRepo.deleteAll();
 		
 		ContactDto contact01 = new ContactDto(null, "Gustavo Moraes", "44 99999 9999", "gustavo@email.com");
 		ContactDto contact02 = new ContactDto(null, "Jose Rodrigues", "43 98888 8888", "jose@email.com");
@@ -86,9 +74,22 @@ public class InicialConfiguration implements CommandLineRunner{
 		ContactModel contactModel11 = ContactDtoToModel(contact11);
 		ContactModel contactModel12 = ContactDtoToModel(contact12);
 		
-		personRepo.saveAll(Arrays.asList(personModel01, personModel02, personModel03, personModel04, personModel05, personModel06));
 		contactRepo.saveAll(Arrays.asList(contactModel01, contactModel02, contactModel03, contactModel04, contactModel05, contactModel06, contactModel07, 
-		contactModel08, contactModel09, contactModel10, contactModel11, contactModel12));
+				contactModel08, contactModel09, contactModel10, contactModel11, contactModel12));
+		
+		PersonDto user01 = new PersonDto(null, "Joao Alves", "641.030.280-09", LocalDate.of(2005, 03, 20));
+		PersonDto user02 = new PersonDto(null, "Maria Silva", "425.950.800-83", LocalDate.of(2006, 06, 21));
+		PersonDto user03 = new PersonDto(null, "Pedro Araujo", "066.428.580-50", LocalDate.of(2007, 07, 22));
+		PersonDto user04 = new PersonDto(null, "Roberto Alves", "250.578.350-09", LocalDate.of(1995, 02, 20));
+		PersonDto user05 = new PersonDto(null, "Matheus Silva", "627.288.470-29", LocalDate.of(1992, 11, 21));
+		PersonDto user06 = new PersonDto(null, "Gustavo Araujo", "019.037.970-71", LocalDate.of(1990, 05, 22));
+		
+		PersonModel personModel01 = PersonDtoToModel(user01);
+		PersonModel personModel02 = PersonDtoToModel(user02);
+		PersonModel personModel03 = PersonDtoToModel(user03);
+		PersonModel personModel04 = PersonDtoToModel(user04);
+		PersonModel personModel05 = PersonDtoToModel(user05);
+		PersonModel personModel06 = PersonDtoToModel(user06);
 
 		personModel01.getContacts().addAll(Arrays.asList(contactModel12, contactModel04));
 		personModel02.getContacts().addAll(Arrays.asList(contactModel03, contactModel06));
