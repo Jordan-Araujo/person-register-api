@@ -2,6 +2,7 @@ package com.register.api.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,47 +21,48 @@ public class PersonModel implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
+	
 	@Column(nullable = false)
-	private String Name;
+	private String name;
 	@Column(nullable = false, unique = true)
-	private String Cpf;
+	private String cpf;
 	@Column(nullable = false)
-	private LocalDate Birthdate;
+	private LocalDate birthdate;
 	
 	@OneToMany
-	private List<ContactModel> contacts;
+	private List<ContactModel> contacts = new ArrayList<>();
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String getCpf() {
-		return Cpf;
+		return cpf;
 	}
 
 	public void setCpf(String cpf) {
-		Cpf = cpf;
+		this.cpf = cpf;
 	}
 
 	public LocalDate getBirthdate() {
-		return Birthdate;
+		return birthdate;
 	}
 
 	public void setBirthdate(LocalDate birthdate) {
-		Birthdate = birthdate;
+		this.birthdate = birthdate;
 	}
 
 	public List<ContactModel> getContacts() {
@@ -73,7 +75,7 @@ public class PersonModel implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Cpf);
+		return Objects.hash(cpf);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -84,6 +86,6 @@ public class PersonModel implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		PersonModel other = (PersonModel) obj;
-		return Objects.equals(Cpf, other.Cpf);
+		return Objects.equals(cpf, other.cpf);
 	}
 }
