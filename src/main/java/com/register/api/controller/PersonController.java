@@ -56,7 +56,10 @@ public class PersonController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<PersonModel> insertNewPerson(@RequestBody @Valid PersonModel personModel){
+	public ResponseEntity<Object> insertNewPerson(@RequestBody @Valid PersonModel personModel){
+		if(personModel.getContacts().isEmpty()) {
+			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Contact list cant be null");
+		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(personService.save(personModel));
 	}
 	
@@ -78,6 +81,9 @@ public class PersonController {
 		}
 		if(modelOp.get().getId() != personModel.getId()) {
 			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("You are not allowed to modify the id");
+		}
+		if(personModel.getContacts().isEmpty()) {
+			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Contact list cant be null");
 		}
 		PersonModel model = modelOp.get();
 		model.setName(personModel.getName());

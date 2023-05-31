@@ -85,7 +85,7 @@ public class PersonControllerTest extends AplicationConfigTest{
 	   personModel.setBirthdate(LocalDate.of(1990, 10, 15));
 	   personModel.setContacts(list);	   
 	   Mockito.when(personService.save(personModel)).thenReturn(personModel);	   
-	   ResponseEntity<PersonModel> responseEntity = personController.insertNewPerson(personModel);	   
+	   ResponseEntity<Object> responseEntity = personController.insertNewPerson(personModel);	   
 	   assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 	   assertEquals(personModel, responseEntity.getBody()); 
 	   Mockito.verify(personService, Mockito.times(1)).save(personModel);
