@@ -21,13 +21,17 @@ public class PersonDto{
 	@Past
 	private LocalDate birthdate;
 	
+	
+	public PersonDto() {
+	}
+
 	public PersonDto(Long id, @Valid @NotBlank String name, @NotBlank @CPF String cpf, @NotNull @Past LocalDate birthdate) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.birthdate = birthdate;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}

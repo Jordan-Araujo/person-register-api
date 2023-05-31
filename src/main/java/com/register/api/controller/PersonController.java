@@ -85,6 +85,4 @@ public class PersonController {
 		model.setBirthdate(personDto.getBirthdate());
 		return ResponseEntity.status(HttpStatus.OK).body(personService.save(model));
 	}
-	
-	
 }

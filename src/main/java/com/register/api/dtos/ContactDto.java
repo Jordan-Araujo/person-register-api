@@ -18,6 +18,7 @@ public class ContactDto {
 	}	
 	
 	public ContactDto(Long id, @NotBlank String name, @NotBlank String phoneNumber, @NotBlank @Email String email) {
+		this.id = id;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
