@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.register.api.AplicationConfigTest;
 import com.register.api.dtos.PersonDto;
+import com.register.api.models.ContactModel;
 import com.register.api.models.PersonModel;
 import com.register.api.services.PersonService;
 
@@ -77,14 +78,14 @@ public class PersonControllerTest extends AplicationConfigTest{
 	@Test
 	@DisplayName("Must insert a person data by Dto")
 	public void insertNewPersonTest() {
-	   PersonDto personDto = new PersonDto();
-	   personDto.setName("John Doe");
-	   personDto.setCpf("123.456.789-00");
-	   personDto.setBirthdate(LocalDate.of(1990, 10, 15));
 	   PersonModel personModel = new PersonModel();
-	   BeanUtils.copyProperties(personDto, personModel);	   
+	   List<ContactModel> list= new ArrayList<>();
+	   personModel.setName("John Doe");
+	   personModel.setCpf("123.456.789-00");
+	   personModel.setBirthdate(LocalDate.of(1990, 10, 15));
+	   personModel.setContacts(list);	   
 	   Mockito.when(personService.save(personModel)).thenReturn(personModel);	   
-	   ResponseEntity<Object> responseEntity = personController.insertNewPerson(personDto);	   
+	   ResponseEntity<PersonModel> responseEntity = personController.insertNewPerson(personModel);	   
 	   assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
 	   assertEquals(personModel, responseEntity.getBody()); 
 	   Mockito.verify(personService, Mockito.times(1)).save(personModel);
@@ -106,16 +107,18 @@ public class PersonControllerTest extends AplicationConfigTest{
 	@DisplayName("Must update a person data by id")
 	public void updatePersonDataByIdTest() {
 	   Long id = 1L;
+	   List<ContactModel> list= new ArrayList<>();
 	   PersonModel person = new PersonModel();
 	   person.setId(id);
-	   PersonDto personDto = new PersonDto();
-	   personDto.setId(id);
-	   personDto.setName("John Doe");
-	   personDto.setCpf("123.456.789-00");
-	   personDto.setBirthdate(LocalDate.of(1990, 10, 15));
+	   PersonModel personModel = new PersonModel();
+	   personModel.setId(id);
+	   personModel.setName("John Doe");
+	   personModel.setCpf("123.456.789-00");
+	   personModel.setBirthdate(LocalDate.of(1990, 10, 15));
+	   personModel.setContacts(list);
 	   Mockito.when(personService.findById(id)).thenReturn(Optional.of(person));
 	   Mockito.when(personService.save(person)).thenReturn(person);
-	   ResponseEntity<Object> responseEntity = personController.updatePersonDataById(id, personDto);
+	   ResponseEntity<Object> responseEntity = personController.updatePersonDataById(id, personModel);
 	   assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	   assertEquals(person, responseEntity.getBody()); 
 	   Mockito.verify(personService, Mockito.times(1)).save(person);

@@ -1,5 +1,6 @@
 package com.register.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.register.api.dtos.PersonDto;
+import com.register.api.models.ContactModel;
 import com.register.api.models.PersonModel;
 import com.register.api.services.PersonService;
 
@@ -54,9 +56,7 @@ public class PersonController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> insertNewPerson(@RequestBody @Valid PersonDto personDto){
-		PersonModel personModel = new PersonModel();
-		BeanUtils.copyProperties(personDto, personModel);
+	public ResponseEntity<PersonModel> insertNewPerson(@RequestBody @Valid PersonModel personModel){
 		return ResponseEntity.status(HttpStatus.CREATED).body(personService.save(personModel));
 	}
 	
@@ -71,18 +71,19 @@ public class PersonController {
 	}
 	
 	@PutMapping(value="/{id}")
-	public ResponseEntity<Object> updatePersonDataById(@PathVariable Long id, @RequestBody @Valid PersonDto personDto){
-		Optional<PersonModel> personModel = personService.findById(id);
-		if(!personModel.isPresent()) {
+	public ResponseEntity<Object> updatePersonDataById(@PathVariable Long id, @RequestBody @Valid PersonModel personModel){
+		Optional<PersonModel> modelOp = personService.findById(id);
+		if(!modelOp.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Id not found");
 		}
-		if(personModel.get().getId() != personDto.getId()) {
+		if(modelOp.get().getId() != personModel.getId()) {
 			return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("You are not allowed to modify the id");
 		}
-		PersonModel model = personModel.get();
-		model.setName(personDto.getName());
-		model.setCpf(personDto.getCpf());
-		model.setBirthdate(personDto.getBirthdate());
+		PersonModel model = modelOp.get();
+		model.setName(personModel.getName());
+		model.setCpf(personModel.getCpf());
+		model.setBirthdate(personModel.getBirthdate());
+		model.setContacts(personModel.getContacts());
 		return ResponseEntity.status(HttpStatus.OK).body(personService.save(model));
 	}
 }

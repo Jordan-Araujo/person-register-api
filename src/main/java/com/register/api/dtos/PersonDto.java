@@ -21,7 +21,6 @@ public class PersonDto{
 	@Past
 	private LocalDate birthdate;
 	
-	
 	public PersonDto() {
 	}
 
