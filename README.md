@@ -1,4 +1,4 @@
-# ELotech Internship Project
+# Elotech projeto
 
 # Sobre o projeto
 
